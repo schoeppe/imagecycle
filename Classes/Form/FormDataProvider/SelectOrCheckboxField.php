@@ -14,10 +14,11 @@ namespace TYPO3Extension\Imagecycle\Form\FormDataProvider;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
 use TYPO3\CMS\Backend\Form\FormDataProvider\AbstractItemProvider;
+use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 /**
  * Resolves custom select or checkbox field.
@@ -48,11 +49,11 @@ class SelectOrCheckboxField extends AbstractItemProvider implements FormDataProv
             if ($this->useSelectInsteadCheckbox()) {
                 $fieldConfig['config']['type'] = 'select';
                 $fieldConfig['config']['renderType'] = 'selectSingle';
-                $fieldConfig['config']['items'] = array(
+                $fieldConfig['config']['items'] = [
                     ['LLL:EXT:imagecycle/locallang_db.xml:tt_content.pi_flexform.from_ts', 2],
                     ['LLL:EXT:imagecycle/locallang_db.xml:tt_content.pi_flexform.yes', 1],
                     ['LLL:EXT:imagecycle/locallang_db.xml:tt_content.pi_flexform.no', 0],
-                );
+                ];
             } else {
                 $fieldConfig['config']['type'] = 'check';
                 // Conversion of special select value to checkbox value
@@ -73,6 +74,6 @@ class SelectOrCheckboxField extends AbstractItemProvider implements FormDataProv
     protected function useSelectInsteadCheckbox()
     {
         $configuration = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('backend');
-        return (!empty($configuration['useSelectInsteadCheckbox']));
+        return !empty($configuration['useSelectInsteadCheckbox']);
     }
 }
